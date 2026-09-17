@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="ca">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Presentació i Antologia — Nicolau Camprubí</title>
+
+    <meta
+        name="description"
+        content="Presentació i Antologia — Portfolio d'arquitectura de Nicolau Camprubí."
+    >
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- HEADER -->
+
+    <header class="header">
+
+        <div class="title">
+            Presentació i Antologia
+        </div>
+
+        <div class="controls">
+
+            <button
+                id="prev"
+                aria-label="Pàgina anterior">
+                ←
+            </button>
+
+            <span id="page">
+                01
+            </span>
+
+            <button
+                id="next"
+                aria-label="Pàgina següent">
+                →
+            </button>
+
+            <button
+                id="fullscreen"
+                aria-label="Pantalla completa">
+                ⛶
+            </button>
+
+        </div>
+
+    </header>
+
+
+    <!-- PDF -->
+
+    <main class="viewer">
+
+        <iframe
+            id="pdf"
+            src="presentacio-i-antologia.pdf#toolbar=0&navpanes=0&scrollbar=0"
+            title="Presentació i Antologia">
+        </iframe>
+
+    </main>
+
+
+    <!-- SCRIPT -->
+
+    <script>
+
+        const pdf = document.getElementById("pdf");
+        const pageDisplay = document.getElementById("page");
+        const previous = document.getElementById("prev");
+        const next = document.getElementById("next");
+        const fullscreenButton = document.getElementById("fullscreen");
+
+        let currentPage = 1;
+
+
+        /*
+         * Escriu aquí el nombre TOTAL de pàgines
+         * del teu PDF.
+         *
+         * Exemple:
+         *
+         * const totalPages = 36;
+         *
+         */
+
+        const totalPages = 1;
+
+
+        function showPage(page) {
+
+            currentPage = page;
+
+            pdf.src =
+                `presentacio-i-antologia.pdf#page=${currentPage}&toolbar=0&navpanes=0&scrollbar=0`;
+
+            pageDisplay.textContent =
+                String(currentPage).padStart(2, "0");
+        }
+
+
+        function nextPage() {
+
+            if (currentPage < totalPages) {
+
+                showPage(currentPage + 1);
+
+            }
+        }
+
+
+        function previousPage() {
+
+            if (currentPage > 1) {
+
+                showPage(currentPage - 1);
+
+            }
+        }
+
+
+        previous.addEventListener(
+            "click",
+            previousPage
+        );
+
+
+        next.addEventListener(
+            "click",
+            nextPage
+        );
+
+
+        fullscreenButton.addEventListener(
+            "click",
+            () => {
+
+                if (document.documentElement.requestFullscreen) {
+
+                    document.documentElement.requestFullscreen();
+
+                }
+
+            }
+        );
+
+
+        /*
+         * KEYBOARD NAVIGATION
+         */
+
+        document.addEventListener(
+            "keydown",
+            (event) => {
+
+                if (event.key === "ArrowRight") {
+
+                    nextPage();
+
+                }
+
+                if (event.key === "ArrowLeft") {
+
+                    previousPage();
+
+                }
+
+                if (event.key === "f") {
+
+                    document.documentElement.requestFullscreen();
+
+                }
+
+                if (event.key === "Escape") {
+
+                    if (document.fullscreenElement) {
+
+                        document.exitFullscreen();
+
+                    }
+
+                }
+
+            }
+        );
+
+    </script>
+
+</body>
+
+</html>
